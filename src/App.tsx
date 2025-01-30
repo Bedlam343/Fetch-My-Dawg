@@ -1,39 +1,25 @@
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom';
+import Root from 'src/pages/Root';
+import Home from 'src/pages/Home';
+import Login from 'src/pages/Login';
+import { login } from 'src/actions';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Root />}>
+      <Route path="login" element={<Login />} action={login} />
+      <Route path="home" element={<Home />} />
+    </Route>
+  )
+);
+
 function App() {
-  return (
-    <div className="bg-black-500 py-[20px] gap-[60px] flex flex-col items-center">
-      <p className="text-center text-4xl">Fetch My Dawg!</p>
-
-      <div className="flex flex-col gap-[20px] items-center">
-        <p className="text-center text-xl text-slate-700">Login</p>
-
-        <div>
-          <label htmlFor="name" className="block">
-            Name:
-          </label>
-          <input
-            id="name"
-            className="outline-none border-b-2 border-slate-600"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block">
-            Email:
-          </label>
-          <input
-            id="email"
-            className="outline-none border-b-2 border-slate-600"
-          />
-        </div>
-
-        <button
-          className="border-[1px] border-slate-900 w-[75px] rounded-md px-2 py-1
-          hover:border-slate-700"
-        >
-          Login
-        </button>
-      </div>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
