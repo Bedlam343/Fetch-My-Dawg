@@ -1,17 +1,16 @@
 import { useLoaderData } from 'react-router-dom';
+import DogList from 'src/components/DogList';
 import { Dog } from 'src/utils/types';
 
 const Home = () => {
   const { dogs, next, prev } = useLoaderData();
 
+  console.log(dogs);
+
   return (
-    <div className="flex gap-[20px] flex-wrap">
-      {(dogs as Dog[]).map((dog) => (
-        <div key={dog.id}>
-          <img src={dog.img} className="w-[200px] h-[200px] object-cover" />
-        </div>
-      ))}
-    </div>
+    <>
+      <DogList dogs={dogs as Dog[]} />
+    </>
   );
 };
 

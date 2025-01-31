@@ -17,11 +17,15 @@ const Root = () => {
   }, [navigate, authExpiresAt]);
 
   return (
-    <>
-      <main>
+    <div className="py-[30px] flex flex-col gap-[50px]">
+      <p className="text-center text-slate-300 font-bold text-4xl">
+        Fetch My Dawg!
+      </p>
+
+      <main className="flex justify-center">
         <Outlet />
       </main>
-    </>
+    </div>
   );
 };
 
