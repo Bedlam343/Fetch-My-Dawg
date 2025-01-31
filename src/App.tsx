@@ -4,22 +4,29 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
+import queryClient from 'src/queryClient';
 import Root from 'src/pages/Root';
 import Home from 'src/pages/Home';
 import Login from 'src/pages/Login';
-import { login } from 'src/actions';
+import { login } from 'src/pages/actions';
+import { fetchDogsLoader } from 'src/pages/loaders';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       <Route path="login" element={<Login />} action={login} />
-      <Route path="home" element={<Home />} />
+      <Route path="home" element={<Home />} loader={fetchDogsLoader} />
     </Route>
   )
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
