@@ -25,7 +25,7 @@ const login = async ({ request }: ActionFunctionArgs) => {
     const authExpiresAt = Date.now() + AUTH_WINDOW_MS;
     localStorage.setItem(AUTH_EXPIRES_AT, authExpiresAt.toString());
     console.log('redirecting to home');
-    return redirect('/home');
+    return redirect('/dogs/search');
   } catch (err) {
     console.error(err);
     return 'Error logging in!';

@@ -12,7 +12,7 @@ const Root = () => {
       console.log('navigating to login page');
       navigate('/login');
     } else {
-      navigate('/home');
+      navigate('/dogs/search');
     }
   }, [navigate, authExpiresAt]);
 

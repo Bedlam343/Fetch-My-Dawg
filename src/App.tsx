@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import queryClient from 'src/queryClient';
 import Root from 'src/pages/Root';
-import Home from 'src/pages/Home';
+import Dogs from 'src/pages/Dogs';
 import Login from 'src/pages/Login';
 import { login } from 'src/pages/actions';
 import { fetchDogsLoader } from 'src/pages/loaders';
@@ -16,7 +16,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       <Route path="login" element={<Login />} action={login} />
-      <Route path="home" element={<Home />} loader={fetchDogsLoader} />
+      <Route path="dogs/search" element={<Dogs />} loader={fetchDogsLoader} />
     </Route>
   )
 );
