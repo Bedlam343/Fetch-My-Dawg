@@ -3,9 +3,17 @@ import Icons from 'src/icons';
 
 type DogListProps = {
   dogs: Dog[];
+  favorites: { [k: string]: boolean };
+  onFavorite: (id: string) => void;
+  onUnfavorite: (id: string) => void;
 };
 
-const DogList = ({ dogs }: DogListProps) => {
+const DogList = ({
+  dogs,
+  favorites,
+  onFavorite,
+  onUnfavorite,
+}: DogListProps) => {
   return (
     <div className="flex gap-[50px] flex-wrap justify-center max-w-[1200px] text-slate-900">
       {dogs.map((dog) => (
@@ -20,7 +28,11 @@ const DogList = ({ dogs }: DogListProps) => {
                 {dog.name}
               </p>
 
-              <Icons.HeartUnfilled />
+              {favorites[dog.id] ? (
+                <Icons.HeartFilled onClick={() => onUnfavorite(dog.id)} />
+              ) : (
+                <Icons.HeartUnfilled onClick={() => onFavorite(dog.id)} />
+              )}
             </div>
 
             <p className="text-slate-500 text-md">
