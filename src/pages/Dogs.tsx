@@ -1,11 +1,16 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 import DogList from 'src/components/DogList';
-import ArrowBack from 'src/icons/ArrowBack';
-import ArrowForward from 'src/icons/ArrowForward';
 import { Dog } from 'src/utils/types';
+import Icons from 'src/icons';
+
+type LoaderData = {
+  dogs: Dog[];
+  next: string | undefined;
+  prev: string | undefined;
+};
 
 const Dogs = () => {
-  const { dogs, next, prev } = useLoaderData();
+  const { dogs, next, prev } = useLoaderData<LoaderData>();
   const [, setSearchParams] = useSearchParams();
 
   const handlePrev = () => {
@@ -20,10 +25,10 @@ const Dogs = () => {
 
   return (
     <div className="flex flex-col  gap-[10px]">
-      <DogList dogs={dogs as Dog[]} />
+      <DogList dogs={dogs} />
 
       <div className="flex justify-center gap-[100px] mt-[20px]">
-        <ArrowBack
+        <Icons.ArrowBack
           width={30}
           height={30}
           fill="#cbd5e1"
@@ -32,7 +37,7 @@ const Dogs = () => {
           text="Prev"
         />
 
-        <ArrowForward
+        <Icons.ArrowForward
           width={30}
           height={30}
           fill="#cbd5e1"
