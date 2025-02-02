@@ -17,7 +17,7 @@ const Dogs = () => {
   const [favorites, setFavorties] = useState<{ [k: string]: boolean }>({});
   const [breeds, setBreeds] = useState<string[]>([]);
 
-  const { dogs, next, prev } = useLoaderData<LoaderData>();
+  const data = useLoaderData<LoaderData>();
   const [searchParams, setSearchParams] = useSearchParams({
     ...DEFAULT_SEARCH_PARAMETERS,
   });
@@ -38,16 +38,16 @@ const Dogs = () => {
         block: 'center',
       });
     }
-  }, [dogs]);
+  }, [data?.dogs]);
 
   const handlePrev = () => {
-    if (!prev) return;
-    setSearchParams(prev.split('?')[1]);
+    if (!data.prev) return;
+    setSearchParams(data.prev.split('?')[1]);
   };
 
   const handleNext = () => {
-    if (!next) return;
-    setSearchParams(next.split('?')[1]);
+    if (!data.next) return;
+    setSearchParams(data.next.split('?')[1]);
   };
 
   const handleFavorite = (dogId: string) => {
@@ -94,6 +94,10 @@ const Dogs = () => {
     setSearchParams(searchParams);
   };
 
+  const resetFilters = () => {
+    setSearchParams({ ...DEFAULT_SEARCH_PARAMETERS });
+  };
+
   return (
     <div className="flex flex-col items-center">
       <Filters
@@ -103,22 +107,25 @@ const Dogs = () => {
         onSetSortDirection={setSortDirection}
         onSelectBreed={setBreed}
         onSetSortField={setSortField}
+        onResetFilters={resetFilters}
         ref={filtersRef}
       />
 
-      <DogList
-        dogs={dogs}
-        favorites={favorites}
-        onFavorite={handleFavorite}
-        onUnfavorite={handleUnfavorite}
-      />
+      {data?.dogs && (
+        <DogList
+          dogs={data.dogs}
+          favorites={favorites}
+          onFavorite={handleFavorite}
+          onUnfavorite={handleUnfavorite}
+        />
+      )}
 
       <div className="flex justify-center gap-[100px] mt-[60px]">
         <Icons.ArrowBack
           width={40}
           height={40}
           fill="white"
-          disabled={!prev}
+          disabled={!data?.prev}
           onClick={handlePrev}
           text="Prev"
         />
@@ -127,7 +134,7 @@ const Dogs = () => {
           width={40}
           height={40}
           fill="white"
-          disabled={!next}
+          disabled={!data?.next}
           onClick={handleNext}
           text="Next"
         />

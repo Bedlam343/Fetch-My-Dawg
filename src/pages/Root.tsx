@@ -1,14 +1,21 @@
 import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   AUTH_EXPIRES_AT,
   DEFAULT_SEARCH_PARAMETERS,
 } from 'src/utils/constants';
-import { toQueryString } from 'src/utils/helpers';
+import { authExpired, toQueryString } from 'src/utils/helpers';
 
 const Root = () => {
   const authExpiresAt = localStorage.getItem(AUTH_EXPIRES_AT);
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authExpired() && location.pathname !== '/login') {
+      navigate('/login');
+    }
+  });
 
   useEffect(() => {
     // navigate to login page is auth expired

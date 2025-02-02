@@ -16,7 +16,7 @@ const DogList = ({
 }: DogListProps) => {
   return (
     <div
-      className="flex gap-[25px] md:gap-[40px] flex-wrap justify-between
+      className="flex gap-[25px] md:gap-[40px] flex-wrap justify-center md:justify-between
       max-w-[1200px] text-slate-900"
     >
       {dogs.map((dog, index) => (

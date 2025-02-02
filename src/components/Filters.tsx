@@ -10,6 +10,7 @@ type FilterProps = {
   onSelectBreed: (breed: string) => void;
   onSetSortDirection: (direc: SortDirection) => void;
   onSetSortField: (field: SortField) => void;
+  onResetFilters: () => void;
 };
 
 const Filters = forwardRef(
@@ -20,6 +21,7 @@ const Filters = forwardRef(
       onSelectBreed,
       onSetSortDirection,
       onSetSortField,
+      onResetFilters,
     }: FilterProps,
     ref: ForwardedRef<HTMLDivElement>
   ) => {
@@ -39,7 +41,12 @@ const Filters = forwardRef(
       >
         <div className="flex">
           <Icons.Filter height={30} width={30} fill="white" />
-          <p className="text-stone-200 text-xl font-bold">Filters:</p>
+          <p
+            className="text-stone-200 text-xl font-bold
+            underline underline-offset-2"
+          >
+            Filters:
+          </p>
         </div>
 
         <select
@@ -115,6 +122,12 @@ const Filters = forwardRef(
             </div>
           </div>
         </div>
+        <button
+          onClick={onResetFilters}
+          className="bg-purple-50 rounded-md px-2 py-1"
+        >
+          Reset
+        </button>
       </div>
     );
   }
