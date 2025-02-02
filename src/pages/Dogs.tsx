@@ -22,12 +22,6 @@ const Dogs = () => {
     ...DEFAULT_SEARCH_PARAMETERS,
   });
 
-  console.log(
-    searchParams.get('size'),
-    searchParams.get('from'),
-    searchParams.get('sort')
-  );
-
   useEffect(() => {
     const fetchBreeds = async () => {
       setBreeds(await getBreeds());
@@ -37,12 +31,12 @@ const Dogs = () => {
 
   const handlePrev = () => {
     if (!prev) return;
-    setSearchParams(prev);
+    setSearchParams(prev.split('?')[1]);
   };
 
   const handleNext = () => {
     if (!next) return;
-    setSearchParams(next);
+    setSearchParams(next.split('?')[1]);
   };
 
   const handleFavorite = (dogId: string) => {
@@ -69,12 +63,24 @@ const Dogs = () => {
     setSearchParams(searchParams);
   };
 
+  const setBreed = (breed: string) => {
+    if (!breed) {
+      searchParams.delete('breeds');
+    } else {
+      searchParams.set('breeds', [breed].toString());
+    }
+
+    setSearchParams(searchParams);
+  };
+
   return (
     <div className="flex flex-col items-center">
       <Filters
         breeds={breeds}
         sortDirection={searchParams.get('sort')!.split(':')[1] as SortDirection}
+        selectedBreed={searchParams.get('breeds') ?? ''}
         onSetSortDirection={setSortDirection}
+        onSelectBreed={setBreed}
       />
 
       <DogList

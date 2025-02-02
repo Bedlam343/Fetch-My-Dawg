@@ -1,17 +1,29 @@
+import { ChangeEvent } from 'react';
 import Icons from 'src/icons';
 import { SortDirection } from 'src/utils/types';
 
 type FilterProps = {
   breeds: string[];
   sortDirection: SortDirection;
+  selectedBreed: string;
+  onSelectBreed: (breed: string) => void;
   onSetSortDirection: (direc: SortDirection) => void;
 };
 
 const Filters = ({
   breeds,
   sortDirection,
+  onSelectBreed,
   onSetSortDirection,
 }: FilterProps) => {
+  const handleBreedSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const breed = e.target.value;
+    if (breed === 'All Breeds') {
+      onSelectBreed('');
+      return;
+    }
+    onSelectBreed(breed);
+  };
   return (
     <div
       className="flex w-full mb-[50px] border-b-[1px]
@@ -25,11 +37,10 @@ const Filters = ({
       <select
         className="text-center w-[200px] bg-black bg-opacity-50 text-slate-100
       text-ellipsis rounded-lg border-[1px] border-stone-600 h-[40px]"
-        defaultValue="Breed"
+        defaultValue="All Breeds"
+        onChange={handleBreedSelectChange}
       >
-        <option className="text-slate-100" disabled>
-          Breed
-        </option>
+        <option className="text-slate-100">All Breeds</option>
         {breeds.map((breed) => (
           <option
             key={breed}
