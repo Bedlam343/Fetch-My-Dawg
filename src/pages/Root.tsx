@@ -23,8 +23,8 @@ const Root = () => {
     <div>
       <div className="fixed top-0 left-0 w-screen h-screen -z-20">
         <img
-          src="/dog_background.jpg"
-          className="w-[100%] h-[100%] object-cover"
+          src="/dog_background3.jpg"
+          className="w-[100%] h-[100%] object-cover transform rotate-180"
         />
       </div>
 
@@ -34,7 +34,7 @@ const Root = () => {
       />
 
       <div className="py-[30px] px-[50px] flex flex-col gap-[50px]">
-        <p className="text-center text-white font-bold text-5xl">
+        <p className="text-center text-fuchsia-100 font-bold text-5xl">
           Fetch My Dawg!
         </p>
 

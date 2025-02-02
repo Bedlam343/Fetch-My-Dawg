@@ -34,7 +34,7 @@ const Filters = ({
     >
       <div className="flex">
         <Icons.Filter height={30} width={30} fill="white" />
-        <p className="text-stone-200 text-xl">Filters:</p>
+        <p className="text-stone-200 text-xl font-bold">Filters:</p>
       </div>
 
       <select
@@ -57,7 +57,7 @@ const Filters = ({
 
       <div className="flex items-center gap-[10px]">
         <div>
-          <p className="text-stone-200">Sort By:</p>
+          <p className="text-stone-200 text-lg font-bold">Sort By:</p>
         </div>
 
         <select
@@ -85,23 +85,23 @@ const Filters = ({
         >
           <div
             onClick={() => onSetSortDirection('asc')}
-            className={`h-full hover:cursor-pointer w-[75px] hover:text-stone-700
-          hover:bg-stone-200 flex items-center justify-center ${
+            className={`h-full font-semibold hover:cursor-pointer w-[75px] hover:text-stone-700
+          hover:bg-purple-200 flex items-center justify-center ${
             sortDirection === 'asc'
-              ? 'bg-stone-200 text-stone-700'
+              ? 'bg-purple-200 text-stone-900'
               : ' text-stone-200'
           }`}
           >
             Asc
           </div>
-          <div className="h-full w-[1px] bg-white" />
+          <div className="h-full w-[1px] bg-purple-100" />
           <div
             onClick={() => onSetSortDirection('desc')}
-            className={`h-full hover:cursor-pointer w-[75px]
+            className={`h-full font-semibold hover:cursor-pointer w-[75px]
           flex items-center justify-center ${
             sortDirection === 'desc'
-              ? 'bg-stone-200 text-stone-700'
-              : 'text-stone-200 hover:text-stone-700 hover:bg-stone-200'
+              ? 'bg-purple-200 text-stone-700'
+              : 'text-stone-200 hover:text-stone-700 hover:bg-purple-200'
           }`}
           >
             Desc
