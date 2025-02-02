@@ -18,7 +18,7 @@ const withIconWrapper = (WrappedIcon: FunctionComponent<IconProps>) => {
     disabled,
     height = 20,
     width = 20,
-    fill = '#f5f5f4',
+    fill = '#cbd5e1',
     text = '',
   }: WrapperProps) => (
     <div

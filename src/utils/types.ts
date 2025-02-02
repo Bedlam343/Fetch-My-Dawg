@@ -20,3 +20,5 @@ export interface Coordinates {
   lat: number;
   lon: number;
 }
+
+export type SortDirection = 'asc' | 'desc';

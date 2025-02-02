@@ -50,8 +50,8 @@ const Login = () => {
 
         <button
           type="submit"
-          className="border-[1px] border-slate-600 w-[75px] rounded-md px-2 py-1
-      hover:border-slate-500 text-slate-300 mt-[10px]"
+          className="border-[1px] border-stone-400 w-[75px] rounded-md px-2 py-1
+      hover:border-slate-300 text-slate-300 mt-[10px]"
         >
           Login
         </button>

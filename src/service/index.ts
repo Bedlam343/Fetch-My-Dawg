@@ -6,7 +6,7 @@ export const getBreeds = async () => {
   const response = await axios.get(`${BASE_FETCH_URL}/dogs/breeds`, {
     withCredentials: true,
   });
-  console.log(response);
+  return response.data;
 };
 
 export const getDogs = async (params: { [k: string]: string }) => {

@@ -4,7 +4,9 @@ import {
   AUTH_EXPIRES_AT,
   AUTH_WINDOW_MS,
   BASE_FETCH_URL,
+  DEFAULT_SEARCH_PARAMETERS,
 } from 'src/utils/constants';
+import { toQueryString } from 'src/utils/helpers';
 
 const login = async ({ request }: ActionFunctionArgs) => {
   const data = await request.formData();
@@ -25,7 +27,7 @@ const login = async ({ request }: ActionFunctionArgs) => {
     const authExpiresAt = Date.now() + AUTH_WINDOW_MS;
     localStorage.setItem(AUTH_EXPIRES_AT, authExpiresAt.toString());
     console.log('redirecting to home');
-    return redirect('/dogs/search');
+    return redirect(`/dogs/search?${toQueryString(DEFAULT_SEARCH_PARAMETERS)}`);
   } catch (err) {
     console.error(err);
     return 'Error logging in!';
