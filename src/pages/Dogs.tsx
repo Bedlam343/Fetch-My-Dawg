@@ -5,7 +5,7 @@ import { getBreeds } from 'src/service';
 import Icons from 'src/icons';
 import Filters from 'src/components/Filters';
 import { Dog, SortDirection } from 'src/utils/types';
-import { DEFAULT_SEARCH_PARAMETERS } from 'src/utils/constants';
+import { DEFAULT_SEARCH_PARAMETERS, SortField } from 'src/utils/constants';
 
 type LoaderData = {
   dogs: Dog[];
@@ -73,6 +73,16 @@ const Dogs = () => {
     setSearchParams(searchParams);
   };
 
+  const setSortField = (newField: SortField) => {
+    const sort = searchParams.get('sort')!;
+    const [field, sortDirection] = sort.split(':');
+
+    if (field === newField) return;
+
+    searchParams.set('sort', `${newField}:${sortDirection}`);
+    setSearchParams(searchParams);
+  };
+
   return (
     <div className="flex flex-col items-center">
       <Filters
@@ -81,6 +91,7 @@ const Dogs = () => {
         selectedBreed={searchParams.get('breeds') ?? ''}
         onSetSortDirection={setSortDirection}
         onSelectBreed={setBreed}
+        onSetSortField={setSortField}
       />
 
       <DogList

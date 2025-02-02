@@ -8,3 +8,10 @@ export const DEFAULT_SEARCH_PARAMETERS = {
   from: '0',
   sort: 'breed:asc',
 };
+
+export enum SortField {
+  Breed = 'breed',
+  Name = 'name',
+  Age = 'age',
+}
+export const DEFAULT_SORT_FIELD: SortField = SortField.Name;
