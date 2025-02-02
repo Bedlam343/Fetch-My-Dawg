@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 import DogList from 'src/components/DogList';
 import { getBreeds } from 'src/service';
@@ -22,12 +22,23 @@ const Dogs = () => {
     ...DEFAULT_SEARCH_PARAMETERS,
   });
 
+  const filtersRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const fetchBreeds = async () => {
       setBreeds(await getBreeds());
     };
     fetchBreeds();
   }, []);
+
+  useEffect(() => {
+    if (filtersRef.current) {
+      filtersRef.current.scrollIntoView({
+        behavior: 'instant',
+        block: 'center',
+      });
+    }
+  }, [dogs]);
 
   const handlePrev = () => {
     if (!prev) return;
@@ -92,6 +103,7 @@ const Dogs = () => {
         onSetSortDirection={setSortDirection}
         onSelectBreed={setBreed}
         onSetSortField={setSortField}
+        ref={filtersRef}
       />
 
       <DogList
