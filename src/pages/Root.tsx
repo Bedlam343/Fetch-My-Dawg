@@ -34,7 +34,7 @@ const Root = () => {
       />
 
       <div className="py-[30px] px-[50px] flex flex-col gap-[50px]">
-        <p className="text-center text-fuchsia-100 font-bold text-5xl">
+        <p className="text-center text-purple-50 font-bold text-5xl">
           Fetch My Dawg!
         </p>
 

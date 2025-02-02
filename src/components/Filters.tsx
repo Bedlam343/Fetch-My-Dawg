@@ -38,8 +38,8 @@ const Filters = ({
       </div>
 
       <select
-        className="text-center w-[200px] bg-black bg-opacity-50 text-slate-100
-        text-ellipsis rounded-lg border-[1px] border-stone-600 h-[40px]"
+        className="text-center w-[200px] bg-black bg-opacity-25 text-slate-100
+        text-ellipsis rounded-lg border-[1px] border-stone-500 h-[40px]"
         defaultValue="All Breeds"
         onChange={handleBreedSelectChange}
       >
@@ -61,8 +61,8 @@ const Filters = ({
         </div>
 
         <select
-          className="text-center w-[100px] bg-black bg-opacity-50 text-slate-100
-        text-ellipsis rounded-lg border-[1px] border-stone-600 h-[40px]"
+          className="text-center w-[100px] bg-black bg-opacity-25 text-slate-100
+        text-ellipsis rounded-lg border-[1px] border-stone-500 h-[40px]"
           defaultValue={DEFAULT_SORT_FIELD}
           onChange={(e) =>
             onSetSortField(SortField[e.target.value as keyof typeof SortField])
