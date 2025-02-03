@@ -3,7 +3,7 @@ import Icons from 'src/icons';
 
 type DogListProps = {
   dogs: Dog[];
-  favorites: { [k: string]: boolean };
+  favorites: { [k: string]: Dog };
   onFavorite: (id: string) => void;
   onUnfavorite: (id: string) => void;
 };
@@ -14,9 +14,12 @@ const DogList = ({
   onFavorite,
   onUnfavorite,
 }: DogListProps) => {
+  if (dogs.length === 0) {
+    return <div className="text-purple-50 text-lg">No Dogs Found.</div>;
+  }
   return (
     <div
-      className="flex gap-[25px] md:gap-[40px] flex-wrap justify-center md:justify-between
+      className="flex gap-[25px] md:gap-[35px] flex-wrap justify-center 
       max-w-[1200px] text-slate-900"
     >
       {dogs.map((dog, index) => (
@@ -31,7 +34,7 @@ const DogList = ({
         >
           <img
             src={dog.img}
-            className="w-[250px] h-[150px] object-cover rounded-t-lg"
+            className="w-[250px] h-[200px] object-cover rounded-t-lg"
           />
 
           <div className="bg-purple-50 flex flex-col flex-wrap px-3 py-2 rounded-b-lg">
@@ -45,7 +48,7 @@ const DogList = ({
 
               {favorites[dog.id] ? (
                 <Icons.HeartFilled
-                  fill="#0c0a09 "
+                  fill="#e11d48  "
                   onClick={() => onUnfavorite(dog.id)}
                 />
               ) : (

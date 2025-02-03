@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 import DogList from 'src/components/DogList';
 import { getBreeds } from 'src/service';
@@ -14,8 +14,9 @@ type LoaderData = {
 };
 
 const Dogs = () => {
-  const [favorites, setFavorties] = useState<{ [k: string]: boolean }>({});
+  const [favorites, setFavorties] = useState<{ [k: string]: Dog }>({});
   const [breeds, setBreeds] = useState<string[]>([]);
+  const [displayFavorites, setDisplayFavorites] = useState<boolean>(false);
 
   const data = useLoaderData<LoaderData>();
   const [searchParams, setSearchParams] = useSearchParams({
@@ -23,6 +24,15 @@ const Dogs = () => {
   });
 
   const filtersRef = useRef<HTMLDivElement>(null);
+
+  const numFavorites = useMemo(
+    () => Object.keys(favorites).length,
+    [favorites]
+  );
+  const favoriteDogs = useMemo(
+    () => Object.keys(favorites).map((key) => favorites[key]),
+    [favorites]
+  );
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -51,11 +61,20 @@ const Dogs = () => {
   };
 
   const handleFavorite = (dogId: string) => {
-    setFavorties((prevFavorites) => ({ ...prevFavorites, [dogId]: true }));
+    const dog = data.dogs.find((dog) => dog.id === dogId);
+    if (!dog) return;
+    setFavorties((prevFavorites) => ({
+      ...prevFavorites,
+      [dogId]: dog,
+    }));
   };
 
   const handleUnfavorite = (dogId: string) => {
-    setFavorties((prevFavorites) => ({ ...prevFavorites, [dogId]: false }));
+    setFavorties((prevFavorites) => {
+      const updatedFavorites = { ...prevFavorites };
+      delete updatedFavorites[dogId];
+      return updatedFavorites;
+    });
   };
 
   const setSortDirection = (newDirection: SortDirection) => {
@@ -71,6 +90,7 @@ const Dogs = () => {
     }
 
     searchParams.set('sort', `${field}:${newDirection}`);
+    searchParams.set('from', '0');
     setSearchParams(searchParams);
   };
 
@@ -80,6 +100,8 @@ const Dogs = () => {
     } else {
       searchParams.set('breeds', [breed].toString());
     }
+
+    searchParams.set('from', '0');
 
     setSearchParams(searchParams);
   };
@@ -91,6 +113,7 @@ const Dogs = () => {
     if (field === newField) return;
 
     searchParams.set('sort', `${newField}:${sortDirection}`);
+    searchParams.set('from', '0');
     setSearchParams(searchParams);
   };
 
@@ -99,7 +122,7 @@ const Dogs = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center w-full max-w-[1200px]">
       <Filters
         breeds={breeds}
         sortDirection={searchParams.get('sort')!.split(':')[1] as SortDirection}
@@ -111,34 +134,57 @@ const Dogs = () => {
         ref={filtersRef}
       />
 
+      <div className="flex mb-[40px] text-2xl items-center">
+        <div
+          className={`text-purple-50 px-4 hover:underline
+          underline-offset-2 hover:cursor-pointer ${
+            displayFavorites ? '' : 'underline'
+          }`}
+          onClick={() => setDisplayFavorites(false)}
+        >
+          Search Results
+        </div>
+        <div className="h-full w-[2px] bg-purple-50" />
+        <div
+          className={`text-purple-50 px-4 hover:underline
+          underline-offset-2 hover:cursor-pointer  ${
+            displayFavorites ? 'underline' : ''
+          }`}
+          onClick={() => setDisplayFavorites(true)}
+        >
+          Favorites <span className="text-xl">({numFavorites})</span>
+        </div>
+      </div>
+
       {data?.dogs && (
         <DogList
-          dogs={data.dogs}
+          dogs={displayFavorites ? favoriteDogs : data.dogs}
           favorites={favorites}
           onFavorite={handleFavorite}
           onUnfavorite={handleUnfavorite}
         />
       )}
+      {!displayFavorites && (
+        <div className="flex justify-center gap-[100px] mt-[60px]">
+          <Icons.ArrowBack
+            width={40}
+            height={40}
+            fill="white"
+            disabled={!data?.prev}
+            onClick={handlePrev}
+            text="Prev"
+          />
 
-      <div className="flex justify-center gap-[100px] mt-[60px]">
-        <Icons.ArrowBack
-          width={40}
-          height={40}
-          fill="white"
-          disabled={!data?.prev}
-          onClick={handlePrev}
-          text="Prev"
-        />
-
-        <Icons.ArrowForward
-          width={40}
-          height={40}
-          fill="white"
-          disabled={!data?.next}
-          onClick={handleNext}
-          text="Next"
-        />
-      </div>
+          <Icons.ArrowForward
+            width={40}
+            height={40}
+            fill="white"
+            disabled={!data?.next}
+            onClick={handleNext}
+            text="Next"
+          />
+        </div>
+      )}
     </div>
   );
 };
