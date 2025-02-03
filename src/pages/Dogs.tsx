@@ -132,6 +132,7 @@ const Dogs = () => {
         onSetSortField={setSortField}
         onResetFilters={resetFilters}
         ref={filtersRef}
+        disabled={displayFavorites}
       />
 
       <div className="flex mb-[40px] text-2xl items-center">

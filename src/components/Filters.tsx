@@ -11,6 +11,7 @@ type FilterProps = {
   onSetSortDirection: (direc: SortDirection) => void;
   onSetSortField: (field: SortField) => void;
   onResetFilters: () => void;
+  disabled: boolean;
 };
 
 const Filters = forwardRef(
@@ -18,10 +19,12 @@ const Filters = forwardRef(
     {
       breeds,
       sortDirection,
+      selectedBreed,
       onSelectBreed,
       onSetSortDirection,
       onSetSortField,
       onResetFilters,
+      disabled,
     }: FilterProps,
     ref: ForwardedRef<HTMLDivElement>
   ) => {
@@ -33,10 +36,11 @@ const Filters = forwardRef(
       }
       onSelectBreed(breed);
     };
+
     return (
       <div
         ref={ref}
-        className="flex w-full mb-[50px] border-b-[1px]
+        className="relative flex w-full mb-[50px] border-b-[1px]
     border-stone-400 border-dotted py-3 gap-[40px] items-center"
       >
         <div className="flex">
@@ -52,7 +56,7 @@ const Filters = forwardRef(
         <select
           className="text-center w-[200px] bg-black bg-opacity-25 text-slate-100
         text-ellipsis rounded-lg border-[1px] border-stone-500 h-[40px]"
-          defaultValue="All Breeds"
+          value={selectedBreed ?? 'All Breeds'}
           onChange={handleBreedSelectChange}
         >
           <option className="text-slate-100">All Breeds</option>
@@ -122,12 +126,19 @@ const Filters = forwardRef(
             </div>
           </div>
         </div>
+
         <button
           onClick={onResetFilters}
           className="bg-purple-50 rounded-md px-2 py-1"
         >
           Reset
         </button>
+
+        <div
+          className={`absolute w-full h-full top-0 left-0 ${
+            disabled ? 'hover:cursor-not-allowed' : 'pointer-events-none'
+          }`}
+        />
       </div>
     );
   }
