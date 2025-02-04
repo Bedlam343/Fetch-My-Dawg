@@ -28,12 +28,10 @@ const Root = () => {
 
   return (
     <div>
-      <div className="fixed top-0 left-0 w-screen h-screen -z-20">
-        <img
-          src="/dog_background3.jpg"
-          className="w-[100%] h-[100%] object-cover transform rotate-180"
-        />
-      </div>
+      <img
+        src="/dog_background3.jpg"
+        className="fixed top-0 left-0 w-screen h-screen -z-20 object-cover transform rotate-180"
+      />
 
       <div
         className="fixed top-0 left-0 w-screen h-screen -z-10 
