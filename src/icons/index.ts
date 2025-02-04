@@ -1,17 +1,17 @@
-import ArrowBack from './ArrowBack';
-import ArrowForward from './ArrowForward';
-import HeartUnfilled from './HeatUnfilled';
-import HeartFilled from './HeartFilled';
-import Filter from './Filter';
+import ArrowBackIcon from './ArrowBack';
+import ArrowForwardIcon from './ArrowForward';
+import HeartUnfilledIcon from './HeatUnfilled';
+import HeartFilledIcon from './HeartFilled';
+import FilterIcon from './Filter';
 
-import { wrapIcons } from './wrapper';
+import { withIconWrapper } from './wrapper';
 
-const wrappedIcons = wrapIcons([
-  ArrowBack,
-  ArrowForward,
-  HeartUnfilled,
-  HeartFilled,
-  Filter,
-]);
+const icons = {
+  ArrowBack: withIconWrapper(ArrowBackIcon),
+  ArrowForward: withIconWrapper(ArrowForwardIcon),
+  HeartUnfilled: withIconWrapper(HeartUnfilledIcon),
+  HeartFilled: withIconWrapper(HeartFilledIcon),
+  Filter: withIconWrapper(FilterIcon),
+};
 
-export default wrappedIcons;
+export default icons;

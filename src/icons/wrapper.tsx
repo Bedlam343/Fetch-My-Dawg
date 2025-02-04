@@ -12,7 +12,7 @@ type WrapperProps = {
   text?: string;
 };
 
-const withIconWrapper = (WrappedIcon: FunctionComponent<IconProps>) => {
+export const withIconWrapper = (WrappedIcon: FunctionComponent<IconProps>) => {
   return ({
     onClick = () => {},
     disabled,
@@ -33,10 +33,4 @@ const withIconWrapper = (WrappedIcon: FunctionComponent<IconProps>) => {
       {text && <p style={{ color: fill }}>{text}</p>}
     </div>
   );
-};
-
-export const wrapIcons = (icons: FunctionComponent<IconProps>[]) => {
-  const wrappedIcons: { [k: string]: FunctionComponent<WrapperProps> } = {};
-  icons.forEach((icon) => (wrappedIcons[icon.name] = withIconWrapper(icon)));
-  return wrappedIcons;
 };
