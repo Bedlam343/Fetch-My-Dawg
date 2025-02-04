@@ -1,11 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useLoaderData, useSearchParams } from 'react-router-dom';
+import {
+  useActionData,
+  useLoaderData,
+  useSearchParams,
+  useSubmit,
+} from 'react-router-dom';
 import DogList from 'src/components/DogList';
 import { getBreeds } from 'src/service';
 import Icons from 'src/icons';
 import Filters from 'src/components/Filters';
-import { Dog, SortDirection } from 'src/utils/types';
+import { Dog, Err, SortDirection } from 'src/utils/types';
 import { DEFAULT_SEARCH_PARAMETERS, SortField } from 'src/utils/constants';
+import useDynamicScrollbar from 'src/hooks/useDynamicScrollbar';
+import Match from 'src/components/Match';
 
 type LoaderData = {
   dogs: Dog[];
@@ -17,11 +24,14 @@ const Dogs = () => {
   const [favorites, setFavorties] = useState<{ [k: string]: Dog }>({});
   const [breeds, setBreeds] = useState<string[]>([]);
   const [displayFavorites, setDisplayFavorites] = useState<boolean>(false);
+  const [displayMatch, setDisplayMatch] = useState<boolean>(false);
 
+  const match = useActionData<Dog | Err>();
   const data = useLoaderData<LoaderData>();
   const [searchParams, setSearchParams] = useSearchParams({
     ...DEFAULT_SEARCH_PARAMETERS,
   });
+  const submit = useSubmit();
 
   const filtersRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +59,14 @@ const Dogs = () => {
       });
     }
   }, [data?.dogs]);
+
+  useEffect(() => {
+    if (match && 'id' in match) {
+      setDisplayMatch(true);
+    }
+  }, [match]);
+
+  useDynamicScrollbar();
 
   const handlePrev = () => {
     if (!data.prev) return;
@@ -121,6 +139,18 @@ const Dogs = () => {
     setSearchParams({ ...DEFAULT_SEARCH_PARAMETERS });
   };
 
+  const handleFindMatch = () => {
+    const dogIds: string[] = Object.keys(favorites);
+    submit(JSON.stringify(dogIds), {
+      method: 'POST',
+      encType: 'application/json',
+    });
+  };
+
+  const toggleDisplayMatch = () => {
+    setDisplayMatch(!displayMatch);
+  };
+
   return (
     <div className="flex flex-col items-center w-full max-w-[1200px]">
       <Filters
@@ -135,10 +165,10 @@ const Dogs = () => {
         disabled={displayFavorites}
       />
 
-      <div className="flex mb-[40px] text-2xl items-center">
+      <div className="flex mt-[40px] mb-[40px]  items-center">
         <div
           className={`text-purple-50 px-4 hover:underline
-          underline-offset-2 hover:cursor-pointer ${
+          underline-offset-2 hover:cursor-pointer text-xl ${
             displayFavorites ? '' : 'underline'
           }`}
           onClick={() => setDisplayFavorites(false)}
@@ -148,12 +178,28 @@ const Dogs = () => {
         <div className="h-full w-[2px] bg-purple-50" />
         <div
           className={`text-purple-50 px-4 hover:underline
-          underline-offset-2 hover:cursor-pointer  ${
+          underline-offset-2 hover:cursor-pointer text-xl ${
             displayFavorites ? 'underline' : ''
           }`}
           onClick={() => setDisplayFavorites(true)}
         >
           Favorites <span className="text-xl">({numFavorites})</span>
+        </div>
+        <div className="h-full w-[2px] bg-purple-50" />
+        <div className="px-4">
+          <button
+            onClick={handleFindMatch}
+            disabled={!favoriteDogs.length}
+            className={`text-purple-50 border-[1px] border-rose-400
+            rounded-md px-2 py-1 hover:border-rose-500
+            ${
+              !favoriteDogs.length
+                ? 'hover:cursor-not-allowed opacity-40'
+                : 'hover:cursor-pointer'
+            }`}
+          >
+            Find Match
+          </button>
         </div>
       </div>
 
@@ -185,6 +231,10 @@ const Dogs = () => {
             text="Next"
           />
         </div>
+      )}
+
+      {displayMatch && (
+        <Match dog={match as Dog} onClose={toggleDisplayMatch} />
       )}
     </div>
   );

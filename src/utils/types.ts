@@ -22,3 +22,7 @@ export interface Coordinates {
 }
 
 export type SortDirection = 'asc' | 'desc';
+
+export type Err = {
+  errorMessage: string;
+};

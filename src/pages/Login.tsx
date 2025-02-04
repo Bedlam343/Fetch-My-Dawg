@@ -19,10 +19,10 @@ const Login = () => {
         onSubmit={handleFormSubmit}
         className="flex flex-col gap-[20px] items-center"
       >
-        <p className="text-center text-2xl text-slate-300">Login</p>
+        <p className="text-center text-2xl text-purple-50">Login</p>
 
         <div>
-          <label htmlFor="name" className="block text-slate-300">
+          <label htmlFor="name" className="block text-purple-50">
             Name:
           </label>
           <input
@@ -35,7 +35,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-slate-300">
+          <label htmlFor="email" className="block text-purple-50">
             Email:
           </label>
           <input
@@ -50,8 +50,8 @@ const Login = () => {
 
         <button
           type="submit"
-          className="border-[1px] border-stone-400 w-[75px] rounded-md px-2 py-1
-      hover:border-slate-300 text-slate-300 mt-[10px]"
+          className="border-[1px] border-purple-100 w-[75px] rounded-md px-2 py-1
+      hover:border-purple-50 text-purple-50 mt-[10px]"
         >
           Login
         </button>

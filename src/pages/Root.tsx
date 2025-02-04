@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import useDynamicScrollbar from 'src/hooks/useDynamicScrollbar';
 import {
   AUTH_EXPIRES_AT,
   DEFAULT_SEARCH_PARAMETERS,
@@ -26,8 +25,6 @@ const Root = () => {
       navigate(`/dogs/search?${toQueryString(DEFAULT_SEARCH_PARAMETERS)}`);
     }
   }, [navigate, authExpiresAt]);
-
-  useDynamicScrollbar();
 
   return (
     <div>
