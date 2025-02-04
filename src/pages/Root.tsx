@@ -28,15 +28,16 @@ const Root = () => {
 
   return (
     <div>
-      <img
-        style={{ zIndex: -2 }}
-        src="/dog_background3.jpg"
-        className="fixed top-0 left-0 w-screen h-screen object-cover transform rotate-180"
-      />
+      <div className="fixed top-0 left-0 w-screen h-screen -z-20">
+        <img
+          src="/dog_background3.jpg"
+          className="w-[100%] h-[100%] object-cover transform rotate-180"
+        />
+      </div>
 
       <div
-        style={{ zIndex: -1, background: 'black', opacity: '60%' }}
-        className="fixed top-0 left-0 w-screen h-screen pointer-events-none"
+        className="fixed top-0 left-0 w-screen h-screen -z-10 
+        pointer-events-none bg-gradient-to-b from-black/75 to-black/50"
       />
 
       <div className="py-[30px] px-[50px] flex flex-col ">
