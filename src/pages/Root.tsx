@@ -34,8 +34,12 @@ const Root = () => {
       />
 
       <div
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5))',
+        }}
         className="fixed top-0 left-0 w-screen h-screen -z-10 
-        pointer-events-none bg-gradient-to-b from-black/75 to-black/50"
+        pointer-events-none"
       />
 
       <div className="py-[30px] px-[50px] flex flex-col ">
