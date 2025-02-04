@@ -3,6 +3,7 @@ import DogCard from 'src/components/DogCard';
 
 type DogListProps = {
   dogs: DogType[];
+  appearAnimation?: boolean;
   favorites: { [k: string]: DogType };
   onFavorite: (id: string) => void;
   onUnfavorite: (id: string) => void;
@@ -11,6 +12,7 @@ type DogListProps = {
 const DogList = ({
   dogs,
   favorites,
+  appearAnimation = false,
   onFavorite,
   onUnfavorite,
 }: DogListProps) => {
@@ -26,7 +28,7 @@ const DogList = ({
         <div key={dog.id} className="w-[250px]">
           <DogCard
             dog={dog}
-            animationDelay={0.1 * index}
+            animationDelay={appearAnimation ? 0.1 * index : 0}
             canFavorite
             favorite={Boolean(favorites[dog.id])}
             onFavorite={onFavorite}

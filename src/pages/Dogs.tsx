@@ -13,6 +13,8 @@ import { Dog, Err, SortDirection } from 'src/utils/types';
 import { DEFAULT_SEARCH_PARAMETERS, SortField } from 'src/utils/constants';
 import useDynamicScrollbar from 'src/hooks/useDynamicScrollbar';
 import Match from 'src/components/Match';
+import Spinner from 'src/components/common/Spinner';
+import Modal from 'src/components/common/Modal';
 
 type LoaderData = {
   dogs: Dog[];
@@ -25,6 +27,7 @@ const Dogs = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
   const [displayFavorites, setDisplayFavorites] = useState<boolean>(false);
   const [displayMatch, setDisplayMatch] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const match = useActionData<Dog | Err>();
   const data = useLoaderData<LoaderData>();
@@ -61,6 +64,7 @@ const Dogs = () => {
   }, [data?.dogs]);
 
   useEffect(() => {
+    setLoading(false);
     if (match && 'id' in match) {
       setDisplayMatch(true);
     }
@@ -140,6 +144,7 @@ const Dogs = () => {
   };
 
   const handleFindMatch = () => {
+    setLoading(true);
     const dogIds: string[] = Object.keys(favorites);
     submit(JSON.stringify(dogIds), {
       method: 'POST',
@@ -209,6 +214,7 @@ const Dogs = () => {
           favorites={favorites}
           onFavorite={handleFavorite}
           onUnfavorite={handleUnfavorite}
+          appearAnimation={!displayFavorites}
         />
       )}
       {!displayFavorites && (
@@ -235,6 +241,12 @@ const Dogs = () => {
 
       {displayMatch && (
         <Match dog={match as Dog} onClose={toggleDisplayMatch} />
+      )}
+
+      {loading && (
+        <Modal open={loading} onClose={() => {}}>
+          <Spinner text="Finding Match..." />
+        </Modal>
       )}
     </div>
   );

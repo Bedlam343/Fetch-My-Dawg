@@ -40,10 +40,11 @@ const Root = () => {
         pointer-events-none bg-gradient-to-b from-black/75 to-black/50"
       />
 
-      <div className="py-[30px] px-[50px] flex flex-col gap-[50px]">
-        <p className="text-center text-purple-50 font-bold text-5xl">
-          Fetch My Dawg!
-        </p>
+      <div className="py-[30px] px-[50px] flex flex-col ">
+        <div className="mb-[50px] flex flex-col items-center gap-[10px]">
+          <p className="text-purple-50 font-bold text-5xl">Fetch My Dawg!</p>
+          <p className="italic text-purple-200">Find Your Perfect Match</p>
+        </div>
 
         <main className="flex justify-center">
           <Outlet />
