@@ -27,7 +27,10 @@ const Dogs = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
   const [displayFavorites, setDisplayFavorites] = useState<boolean>(false);
   const [displayMatch, setDisplayMatch] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState({
+    loading: false,
+    text: '',
+  });
 
   const match = useActionData<Dog | Err>();
   const data = useLoaderData<LoaderData>();
@@ -55,6 +58,7 @@ const Dogs = () => {
   }, []);
 
   useEffect(() => {
+    setIsLoading({ loading: false, text: '' });
     if (filtersRef.current) {
       filtersRef.current.scrollIntoView({
         behavior: 'instant',
@@ -64,7 +68,7 @@ const Dogs = () => {
   }, [data?.dogs]);
 
   useEffect(() => {
-    setLoading(false);
+    setIsLoading({ loading: false, text: '' });
     if (match && 'id' in match) {
       setDisplayMatch(true);
     }
@@ -75,11 +79,13 @@ const Dogs = () => {
   const handlePrev = () => {
     if (!data.prev) return;
     setSearchParams(data.prev.split('?')[1]);
+    setIsLoading({ loading: true, text: 'Loading...' });
   };
 
   const handleNext = () => {
     if (!data.next) return;
     setSearchParams(data.next.split('?')[1]);
+    setIsLoading({ loading: true, text: 'Loading...' });
   };
 
   const handleFavorite = (dogId: string) => {
@@ -114,6 +120,7 @@ const Dogs = () => {
     searchParams.set('sort', `${field}:${newDirection}`);
     searchParams.set('from', '0');
     setSearchParams(searchParams);
+    setIsLoading({ loading: true, text: 'Loading...' });
   };
 
   const setBreed = (breed: string) => {
@@ -126,6 +133,7 @@ const Dogs = () => {
     searchParams.set('from', '0');
 
     setSearchParams(searchParams);
+    setIsLoading({ loading: true, text: 'Loading...' });
   };
 
   const setSortField = (newField: SortField) => {
@@ -137,14 +145,16 @@ const Dogs = () => {
     searchParams.set('sort', `${newField}:${sortDirection}`);
     searchParams.set('from', '0');
     setSearchParams(searchParams);
+    setIsLoading({ loading: true, text: 'Loading...' });
   };
 
   const resetFilters = () => {
     setSearchParams({ ...DEFAULT_SEARCH_PARAMETERS });
+    setIsLoading({ loading: true, text: 'Loading...' });
   };
 
   const handleFindMatch = () => {
-    setLoading(true);
+    setIsLoading({ loading: true, text: 'Finding Match...' });
     const dogIds: string[] = Object.keys(favorites);
     submit(JSON.stringify(dogIds), {
       method: 'POST',
@@ -243,9 +253,9 @@ const Dogs = () => {
         <Match dog={match as Dog} onClose={toggleDisplayMatch} />
       )}
 
-      {loading && (
-        <Modal open={loading} onClose={() => {}}>
-          <Spinner text="Finding Match..." />
+      {isLoading.loading && (
+        <Modal open={isLoading.loading} onClose={() => {}}>
+          <Spinner text={isLoading.text} />
         </Modal>
       )}
     </div>
